@@ -4,7 +4,7 @@
     "description": "stock Checker",
 
     "permissions":["<all_urls>","tabs",
-    "activeTab"],
+    "activeTab", "storage", "downloads"],
     "browser_action":{
         "default_popup":"popup.html",
         "default_icon":"logo1.png"
@@ -12,12 +12,18 @@
    
     "content_scripts":[
         {"matches":["<all_urls>"],
-        "js":["contentScript.js"],
+        "js":["contentScript.js","popup.js"],
         "run_at":"document_end"
         }
     ],
+    "content_security_policy": "script-src 'self' https://unpkg.com/xlsx/dist/xlsx.full.min.js; object-src 'self'",
+
     "manifest_version":2,
     "icons":{
         "128":"logo1.png"
-    }
-}
+    },
+    "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  }
+  }
