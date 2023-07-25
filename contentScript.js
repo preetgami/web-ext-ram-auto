@@ -59,84 +59,116 @@ function waitEvent(obj, index) {
 }
 
 function saveEvent(obj, index) {
-    console.log("in check")
+    console.log("in find")
     var item = obj[index];
     console.log(item.one)
     var element = document.getElementById(item.one);
     if (element) {
-        var value = element.innerText;
-        window.Scrapper.push(value);
+        // Find the specific <td> element with data-title="Make"
+        var tdElement = element.querySelector('td[data-title="Make"]');
+        var tdNumberElement = element.querySelector('td[data-title="Number"]');
+        var tdNameElement = element.querySelector('td[data-title="Name"]');
+        var imageElement = element.querySelector('.fancybox');
+
+
+
+        if (tdElement) {
+            var number = tdNumberElement.innerText;
+            var name = tdNameElement.innerText;
+            var make = tdElement.innerText;
+
+            let data = {
+                "name": name, "make": make, "number":number,}
+            if (imageElement) {
+                var href = "https://partsouq.com"
+                href += imageElement.getAttribute('href');
+
+                data["imageUrl"] = href;
+            }
+            window.Scrapper.push(data);
+        } else {
+            console.log('No <td> element with data-title="Make" found.');
+        }
+    } else {
+        console.log('Element not found.');
     }
     console.log("value")
     console.log(element)
     console.log("value")
     getNext(obj, (index + 1))
+
 }
+
+function appendDataToSheet(data) {
+    console.log(data);
+    fetch("https://script.google.com/macros/s/AKfycbytOvxc-yS99NGshVaG9W4oLUfiRbsyZaGQAdc1DSomKDKpiWwNK9g9H9xNAQRglon7/exec?action=addUser", {
+        mode: 'no-cors',
+
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(data => console.log('Data sent:', data))
+        .catch(error => console.error('Error:', error));
+    console.log("done posting");
+
+}
+
+
+
 
 function enterEvent(obj, index) {
-    console.log("in enter")
+    console.log("in save to sheets")
     var item = obj[index];
-    
-
     console.log(item.one)
     var element = document.getElementById(item.one);
     if (element) {
-        var value = element.innerText;
-        window.Scrapper.push(value);
-        chrome.runtime.sendMessage({ command: "download-file", data: window.Scrapper });
-        console.log("##################slkfnsfdsm#################")
+        var tdElement = element.querySelector('td[data-title="Make"]');
+        var tdNumberElement = element.querySelector('td[data-title="Number"]');
+        var tdNameElement = element.querySelector('td[data-title="Name"]');
+        var imageElement = element.querySelector('.fancybox');
 
-        
+
+        if (tdElement) {
+            var number = tdNumberElement.innerText;
+            var name = tdNameElement.innerText;
+            var make = tdElement.innerText;
+
+            let data = {
+                "name": name, "make": make, "number": number,
+            }
+            
+            if (imageElement) {
+                var href ="https://partsouq.com"
+                href += imageElement.getAttribute('href');
+                
+                data["imageUrl"] = href;
+            }
+            else{
+                data["imageUrl"] = "";
+
+            }
+            
+            appendDataToSheet(data);
+
+
+            window.Scrapper.push(data);
+        } else {
+            console.log('No <td> element with data-title="Make" found.');
+        }
+    } else {
+        console.log('Element not found.');
     }
-    
-    var image = document.querySelector('.fancybox');
-    /*
-    if (image) {
-        var href = image.getAttribute('href');
-        var filename = href.split('/').pop();
-
-        var link = document.createElement('a');
-        link.href = href;
-        link.download = filename;
-        link.click();
-    }
-    */
-    
-    
-
+    console.log("value")
+    console.log(element)
+    console.log("value")
     getNext(obj, (index + 1))
-}
-
-function appendEvent(obj, index) {
-    console.log("in enter")
-    var item = obj[index];
 
 
-    console.log(item.one)
-    var element = document.getElementById(item.one);
-    if (element) {
-        var value = element.innerText;
-        window.Scrapper.push(value);
-        chrome.runtime.sendMessage({ command: "append-data", data: window.Scrapper });
-        console.log("sent append message")
-
-
-    }
-
-    var image = document.querySelector('.fancybox');
-    /*
-    if (image) {
-        var href = image.getAttribute('href');
-        var filename = href.split('/').pop();
-
-        var link = document.createElement('a');
-        link.href = href;
-        link.download = filename;
-        link.click();
-    }
-    */
-
-
+    
 
     getNext(obj, (index + 1))
 }
