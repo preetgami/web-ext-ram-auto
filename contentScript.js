@@ -30,8 +30,6 @@ function getNext(obj, index) {
             saveEvent(obj, index);
         } else if (obj[index].type === "enter") {
             enterEvent(obj, index);
-        }else if(obj[index].type=="append"){
-            appendEvent(obj,index)
         }
 
     }
@@ -85,10 +83,15 @@ function saveEvent(obj, index) {
 
                 data["imageUrl"] = href;
             }
+            else {
+                data["imageUrl"] = "";
+
+            }
             window.Scrapper.push(data);
         } else {
             console.log('No <td> element with data-title="Make" found.');
         }
+
     } else {
         console.log('Element not found.');
     }
@@ -101,7 +104,7 @@ function saveEvent(obj, index) {
 
 function appendDataToSheet(data) {
     console.log(data);
-    fetch("https://script.google.com/macros/s/AKfycbytOvxc-yS99NGshVaG9W4oLUfiRbsyZaGQAdc1DSomKDKpiWwNK9g9H9xNAQRglon7/exec?action=addUser", {
+    fetch("https://script.google.com/macros/s/AKfycbys9_c8PnC4AW5PIjPNjpIOlooakxuUrxK4Iyzz-CrXgCfa8hLIOOyRRY0d59j9Y4Tq/exec?action=addData", {
         mode: 'no-cors',
 
         method: 'POST',
@@ -126,10 +129,12 @@ function enterEvent(obj, index) {
     console.log(item.one)
     var element = document.getElementById(item.one);
     if (element) {
+        // Find the specific <td> element with data-title="Make"
         var tdElement = element.querySelector('td[data-title="Make"]');
         var tdNumberElement = element.querySelector('td[data-title="Number"]');
         var tdNameElement = element.querySelector('td[data-title="Name"]');
         var imageElement = element.querySelector('.fancybox');
+
 
 
         if (tdElement) {
@@ -140,35 +145,27 @@ function enterEvent(obj, index) {
             let data = {
                 "name": name, "make": make, "number": number,
             }
-            
             if (imageElement) {
-                var href ="https://partsouq.com"
+                var href = "https://partsouq.com"
                 href += imageElement.getAttribute('href');
-                
+
                 data["imageUrl"] = href;
             }
-            else{
+            else {
                 data["imageUrl"] = "";
 
             }
-            
-            appendDataToSheet(data);
-
-
             window.Scrapper.push(data);
+            appendDataToSheet(data)
         } else {
             console.log('No <td> element with data-title="Make" found.');
         }
+
     } else {
         console.log('Element not found.');
     }
     console.log("value")
     console.log(element)
     console.log("value")
-    getNext(obj, (index + 1))
-
-
-    
-
     getNext(obj, (index + 1))
 }
