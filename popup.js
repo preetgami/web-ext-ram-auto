@@ -1,31 +1,34 @@
-chrome.runtime.onMessage.addListener((msg,sender,response)=>{
-    if (msg.command=="run-complete"){
-        document.querySelector("textarea").value=JSON.stringify(msg.data)
-        document.querySelector("textarea").style.display="block"
+chrome.runtime.onMessage.addListener((msg, sender, response) => {
+    if (msg.command == "run-complete") {
+        document.querySelector("textarea").value = JSON.stringify(msg.data)
+        document.querySelector("textarea").style.display = "block"
         alert("completed search. Check if we found something");
 
     }
 })
 
-function commandObject(){
+function commandObject() {
     //find
-    var commandsArray=[
-        {type:"wait",
-         one:"500",
-         two:""
+    var commandsArray = [
+        {
+            type: "wait",
+            one: "500",
+            two: ""
         }, {
             type: "save",
             one: "gf-result-table",
-            two: ""},
+            two: ""
+        },
 
         {
             type: "wait",
             one: "500",
-            two: ""}
+            two: ""
+        }
 
-        
+
     ]
-    console.log(commandsArray)
+    // console.log(commandsArray)
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
         var activeTab = tabs[0];
         var obj = commandsArray;
@@ -35,7 +38,7 @@ function commandObject(){
     });
 }
 
-document.querySelector(".check_data").addEventListener("click",function(){
+document.querySelector(".check_data").addEventListener("click", function () {
     commandObject();
 })
 
@@ -49,7 +52,7 @@ function saveObject() {
             two: ""
         }, {
             type: "enter",
-            one: "gf-result-table",
+            one: "part-col-list-h4",
             two: ""
         },
 
@@ -61,7 +64,7 @@ function saveObject() {
 
 
     ]
-    console.log(commandsArray)
+    // console.log(commandsArray)
 
 
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
