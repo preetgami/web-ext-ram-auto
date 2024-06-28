@@ -2,7 +2,7 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
     if (msg.command == "run-complete") {
         document.querySelector("textarea").value = JSON.stringify(msg.data)
         document.querySelector("textarea").style.display = "block"
-        alert("completed search. Check if we found something");
+        // alert("completed search. Check if we found something");
 
     }
 })
