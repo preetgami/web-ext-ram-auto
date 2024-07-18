@@ -108,18 +108,15 @@ function saveEvent(obj, index) {
 
 function appendDataToSheet(data) {
   //   console.log(data);
-  fetch(
-    "https://script.google.com/macros/s/AKfycbzApu92FlUGKjRtH-N5_Iglz8xjIBpckMnPvcBt22Ebpx6QRulxxFwbzPJmwko0-TF6/exec/exec?action=addData",
-    {
-      mode: "no-cors",
+  fetch("link from app script?action=addData", {
+    mode: "no-cors",
 
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    }
-  )
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
     .then((response) => response.json())
     .then((data) => console.log("Data sent:", data))
     .catch((error) => console.error("Error:", error));
