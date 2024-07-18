@@ -109,7 +109,7 @@ function saveEvent(obj, index) {
 function appendDataToSheet(data) {
   //   console.log(data);
   fetch(
-    "https://script.google.com/macros/s/AKfycbylYBU5CFr4EEtsPhvQ3QIzaf813AcrX10WvIMivSV79CHDAeUgsUx0WujhhMPNRnH2/exec?action=addData",
+    "https://script.google.com/macros/s/AKfycbzApu92FlUGKjRtH-N5_Iglz8xjIBpckMnPvcBt22Ebpx6QRulxxFwbzPJmwko0-TF6/exec/exec?action=addData",
     {
       mode: "no-cors",
 
